@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio {{user.username}}</title>
+    
+    {{!-- LINK CSS --}}
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    {{!-- LINK FONT AWESOME --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    {{!-- LINK FONT --}}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    {{!-- INSTALL LINK BOOTSTRAP --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</head>
+<body>
+    
+    {{!-- NAVBAR --}}
+    <header class="site-header">
+        <div class="container nav-wrap">
+            <div class="logo">BP</div>
+            <nav class="main-nav">
+                <a class="tech" href="#tech">Tech Stack</a>
+                <a class="experience" href="#experience">Experience</a>
+                <a class="projects" href="#projects">Projects</a>
+                <a class="cta instagram" href="https://www.instagram.com/bimoprasetyobimo/">
+                    <i class="fa-brands fa-instagram"></i> Let's Talk
+                </a>
+                <a class="cta cv" href="../assets/files/CV Bimo Fixx.png" download>
+                    <i class="fa-solid fa-download"></i> Download CV
+                </a>
+                {{#if user}}
+                    <form action="/logout" method="GET">
+                        <button type="submit" class="btn-login">Logout</button>
+                    </form>
+                {{else}}
+                    <a href="/login">
+                        <button type="submit" class="btn-login">Login</button>
+                    </a>
+                {{/if}}
+            </nav>
+        </div>
+    </header>
+    {{!-- NAVBAR END --}}
+
+    <main>
+        {{!-- CONTENT BIO DIRI --}}
+        <section class="hero container" id="home">
+            <div class="hero-left">
+                <div class="avatar">
+                    <img src="../assets/images/Animasi Foto.png" alt="Bimo Prasetyo" />
+                </div>
+            </div>
+            <div class="hero-right">
+                <h1>Hi, I'm <span id="name-placeholder">{{user.username}}</span> <span class="wave">👋</span></h1>
+                <h2 class="subtitle">Full-Stack Developer</h2>
+                <p class="lead">I build and ship digital products from scratch to production. Passionate about creating end-to-end solutions and turning ideas into fully functional applications.</p>
+
+
+                <ul class="meta">
+                    <li>📍 Tangerang, Banten</li>
+                    <li class="available">● Available for new projects</li>
+                </ul>
+
+
+                <div class="actions">
+                    <a class="btn btn-purple" href="https://www.instagram.com/bimoprasetyobimo/">
+                        <i class="fa-brands fa-instagram"></i> Let's Talk
+                    </a>
+                    <a class="btn btn-black" href="../assets/files/CV Bimo Fixx.png" download>
+                        <i class="fa-solid fa-download"></i> Download CV
+                    </a>
+                </div>
+            </div>
+        </section>
+        {{!-- CONTENT BIO DIRI END --}}
+
+        {{!-- CONTENT TECH STACK --}}
+        <section class="container section" id="tech">
+            <h3 class="section-title">Tech Stack - Tools I Use Everyday</h3>
+            <div class="tech-grid">
+                <!-- repeat for each tech -->
+                <div class="tech-card"> <img src="../assets/images/html logo.png" alt="Node.js"><span>HTML</span></div>
+                <div class="tech-card"> <img src="../assets/images/css logo.png" alt="Node.js"><span>CSS</span></div>
+                <div class="tech-card"> <img src="../assets/images/JavaScript-logo.png" alt="JavaScript"><span>JavaScript</span></div>
+                <div class="tech-card"> <img src="../assets/images/TypeScript.png" alt="TypeScript"><span>TypeScript</span></div>
+                <div class="tech-card"> <img src="../assets/images/nodejs.jpeg" alt="Node.js"><span>Node.js</span></div>
+                <div class="tech-card"> <img src="../assets/images/express-js-icon.png" alt="Express.js"><span>Express.js</span></div>
+                <div class="tech-card"> <img src="../assets/images/PostgreSQL.png" alt="PostgreSQL"><span>PostgreSQL</span></div>
+            </div>
+        </section>
+        {{!-- CONTENT TECH STACK END --}}
+
+        {{!-- CONTENT WORK EXPERIENCES --}}
+        <section class="container section" id="experience">
+            <div class="section-header">
+                {{#if user}}
+                    <button id="addExperienceBtn" class="btn-add">+</button>
+                {{/if}}
+                <h3 class="section-title">Work Experiences:</h3>
+            </div>
+
+            {{#if user}}
+                <form id="experienceForm" action="/experience/add" method="POST" enctype="multipart/form-data" class="experience-card">
+                    <input type="text" name="name" placeholder="Position" required class="form-input">
+                    <input type="text" name="company_name" placeholder="Company Name" required class="form-input">
+                    <textarea name="description" placeholder="Description" required class="form-textarea"></textarea>
+                    <input type="text" name="skill" placeholder="Skill (e.g. Node.js, PostgreSQL)" class="form-input">
+                    <input type="file" name="picture" accept="image/*" class="form-input-file">
+                    <button type="submit" class="btn-submit">Submit</button>
+                </form>
+            {{/if}}
+
+            <div class="experiences-grid" style="margin-top:20px;">
+                {{#each experiences}}
+                    <article class="experience-card">
+                        <div class="experience-body">
+                            {{#if this.picture}}
+                                <img src="/uploads/{{this.picture}}" alt="{{this.name}}" style="width:100px; border-radius:10px; margin-top:10px;">
+                            {{/if}}
+                            <div class="experience-name">
+                                <h4>{{this.name}}</h4>
+                                <p>{{this.company_name}}</p>
+                                <p>{{this.description}}</p>
+                                <p><em>{{this.skill}}</em></p>
+                            </div>
+                        </div>
+                    </article>
+                {{/each}}
+            </div>
+        </section>
+        {{!-- CONTENT WORK EXPERIENCES END --}}
+
+        {{!-- CONTENT MY PROJECT --}}
+        <section class="container section" id="projects">
+            <div class="section-header">
+                {{#if user}}
+                    <button id="addProjectBtn" class="btn-add">+</button>
+                {{/if}}
+                <h3 class="section-title">My Projects:</h3>
+            </div>
+
+            {{#if user}}
+            <form id="projectForm" action="/project/add" method="POST" enctype="multipart/form-data" class="experience-card">
+                <input type="text" name="name" placeholder="Project Name" required class="form-input">
+                <textarea name="description" placeholder="Description" required class="form-textarea"></textarea>
+                <input type="text" name="skill" placeholder="Skill (e.g. React, Node.js, Tailwind)" class="form-input">
+                <input type="file" name="image" accept="image/*" class="form-input-file">
+                <button type="submit" class="btn-submit">Submit</button>
+            </form>
+            {{/if}}
+
+            <div class="projects-grid">
+                {{#each projects}}
+                <article class="project-card">
+                    <div class="thumb-wrap">
+                        <img src="/uploads/{{this.image}}" alt="{{this.name}}">
+                    </div>
+                    <div class="project-body">
+                        <h4>{{this.name}}</h4>
+                        <p>{{this.description}}</p>
+                        <div class="chip-row">{{this.skill}}</div>
+                    </div>
+                </article>
+                {{/each}}
+            </div>    
+        </section>
+        {{!-- CONTENT MY PROJECT END --}}
+
+        {{!-- FOOTER --}}
+        <section class="container section contact" id="contact">
+            <h3 class="section-title">Let's build something together</h3>
+            <p class="lead">Feel free to reach out if you're looking for a developer, have a question, or just want to connect.</p>
+
+            <div class="contact-row">
+                <div class="contact-item">
+                    <span>✉️</span>
+                    <a href="mailto:bimop9191@gmail.com">bimop9191@gmail.com</a>
+                </div>
+
+                <div class="divider"></div>
+                <div class="contact-item">
+                    <span>💬</span>
+                    <a href="https://www.instagram.com/bimoprasetyobimo/" target="_blank">Instagram</a>
+                </div>
+            </div>
+
+        </section>
+
+        <footer class="site-footer">
+            <div class="container footer-inner">
+                <div>© 2025 Designed and coded with ❤️ by Bimo Prasetyo</div>
+                <div class="socials">
+                    <i class="fa-brands fa-github"></i>
+                    <i class="fa-brands fa-linkedin"></i>
+                </div>
+            </div>
+        </footer>
+        {{!-- FOOTER END --}}
+    </main>
+
+    <script src="../assets/js/main.js"></script>
+    
+</body>
+</html>
