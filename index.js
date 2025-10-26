@@ -2,6 +2,7 @@ import express from 'express'
 import session from 'express-session'
 import bodyParser from 'body-parser'
 import bcrypt from 'bcrypt'
+import hbs from 'hbs';
 import multer from 'multer'
 import path from 'path'
 import pkg from 'pg'
@@ -32,7 +33,11 @@ const pool = new Pool({
     password: 'bimo',
     port: 5432,
 });
-// UNTUK UPLOAD GAMBAR ============================================================
+
+hbs.registerHelper('splitLines', function (text) {
+  if (!text) return [];
+  return text.split(/\n|,/).map(line => line.replace(/^•\s*/, '').trim()).filter(Boolean);
+});
 
 // --- KONFIGURASI MULTER (UPLOAD GAMBAR) ---
 const storage = multer.diskStorage({
@@ -77,6 +82,17 @@ app.post('/experience/add', upload.single('picture'), async (req, res) => {
   }
 })
 
+app.post('/experience/delete/:id', async (req, res) => {
+  const id = req.params.id;
+  try {
+    await pool.query('DELETE FROM experiences WHERE id = $1', [id]);
+    res.redirect('/');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Database delete error');
+  }
+});
+
 // --- POST TAMBAH PROJECT ---
 app.post('/project/add', upload.single('image'), async (req, res) => {
   if (!req.session.user) return res.redirect('/login')
@@ -94,6 +110,17 @@ app.post('/project/add', upload.single('image'), async (req, res) => {
   } catch (err) {
     console.error(err)
     res.status(500).send('Database insert error')
+  }
+})
+
+app.post('/project/delete/:id', async (req, res) => {
+  const id = req.params.id
+  try {
+    await pool.query('DELETE FROM projects WHERE id = $1', [id])
+    res.redirect('/')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('Database delete error')
   }
 })
 // UPLOAD END ============================================================================

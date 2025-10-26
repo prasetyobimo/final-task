@@ -126,8 +126,18 @@
                             <div class="experience-name">
                                 <h4>{{this.name}}</h4>
                                 <p>{{this.company_name}}</p>
-                                <p>{{this.description}}</p>
+                                <ul>
+                                    {{#each (splitLines this.description)}}
+                                        <li>{{this}}</li>
+                                    {{/each}}
+                                </ul>
                                 <p><em>{{this.skill}}</em></p>
+
+                                {{#if ../user}}
+                                    <form action="/experience/delete/{{this.id}}" method="POST" onsubmit="return confirm('Yakin mau hapus pengalaman ini, bro?');">
+                                        <button type="submit" class="btn-delete">Delete</button>
+                                    </form>
+                                {{/if}}
                             </div>
                         </div>
                     </article>
@@ -163,8 +173,19 @@
                     </div>
                     <div class="project-body">
                         <h4>{{this.name}}</h4>
-                        <p>{{this.description}}</p>
+                        <ul>
+                            {{#each (splitLines this.description)}}
+                                <li>{{this}}</li>
+                            {{/each}}
+                        </ul>
                         <div class="chip-row">{{this.skill}}</div>
+
+                        {{#if ../user}}
+                            <form action="/project/delete/{{this.id}}" method="POST" onsubmit="return confirm('Yakin mau hapus project ini, bro?');">
+                                <button type="submit" class="btn-delete">Delete</button>
+                            </form>
+                        {{/if}}
+
                     </div>
                 </article>
                 {{/each}}
