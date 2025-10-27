@@ -131,7 +131,11 @@
                                         <li>{{this}}</li>
                                     {{/each}}
                                 </ul>
-                                <p><em>{{this.skill}}</em></p>
+                                <div class="skill-list">
+                                    {{#each (split this.skill ",")}}
+                                        <span class="skill-item">{{this}}</span>
+                                    {{/each}}
+                                </div>
 
                                 {{#if ../user}}
                                     <form action="/experience/delete/{{this.id}}" method="POST" onsubmit="return confirm('Yakin mau hapus pengalaman ini, bro?');">
@@ -178,7 +182,11 @@
                                 <li>{{this}}</li>
                             {{/each}}
                         </ul>
-                        <div class="chip-row">{{this.skill}}</div>
+                        <div class="skill-list">
+                            {{#each (split this.skill ",")}}
+                                <span class="skill-item">{{this}}</span>
+                            {{/each}}
+                        </div>
 
                         {{#if ../user}}
                             <form action="/project/delete/{{this.id}}" method="POST" onsubmit="return confirm('Yakin mau hapus project ini, bro?');">

@@ -39,6 +39,10 @@ hbs.registerHelper('splitLines', function (text) {
   return text.split(/\n|,/).map(line => line.replace(/^•\s*/, '').trim()).filter(Boolean);
 });
 
+hbs.registerHelper('split', function (text, delimiter) {
+  return text ? text.split(delimiter).map(s => s.trim()) : [];
+});
+
 // --- KONFIGURASI MULTER (UPLOAD GAMBAR) ---
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'src/assets/images/uploads/'),
